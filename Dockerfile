@@ -54,13 +54,13 @@ RUN tools/install-dependencies
 RUN tools/generate-files native
 
 # Build: cmake + make wallet core
-RUN cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Debug \
-    && make -Cbuild -j12 TrustWalletCore
+#RUN cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Debug \
+#    && make -Cbuild -j12 TrustWalletCore
 
 # Build unit tester
-RUN make -Cbuild -j12 tests
+#RUN make -Cbuild -j12 tests
 
 # Download and Install Go: apt install golang-go
 # Build Go sample app: cd samples/go && /usr/local/go/bin/go build -o main && ./main
 
-CMD ["/bin/bash"]
+CMD ["sleep","86400"]
