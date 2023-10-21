@@ -1,0 +1,16 @@
+---
+version: '3.8'
+name: trust
+
+services:
+  builder:
+    build:
+      context: .
+    volumes:
+      - code:/wallet-core
+volumes:
+  code:
+    driver_opts:
+      type: none
+      device: "$PWD"
+      o: bind
