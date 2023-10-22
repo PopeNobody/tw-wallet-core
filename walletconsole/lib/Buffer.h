@@ -29,13 +29,10 @@ public:
 // Keep last result and buffer variables
 class Buffer {
 protected:
-    ostream& _out;
     SavedValue _last;
     vector<SavedValue> _prev;
 
 public:
-    Buffer(ostream& out) : _out(out) {}
-
     void addResult(const string& val);
     /// Return the given input string, if # or #n, substitute it
     bool prepareInput(const string& in, string& in_out);

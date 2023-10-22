@@ -24,13 +24,10 @@ using namespace std;
 
 class WalletConsole {
 protected:
-  istream& _inst;
-  ostream& _outst;
   CommandExecutor _executor;
 
 public:
-  WalletConsole(istream& ins, ostream& outs)
-    : _inst(ins), _outst(outs), _executor(outs)
+  WalletConsole()
   {
     init();
   }

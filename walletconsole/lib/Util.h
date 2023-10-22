@@ -16,10 +16,7 @@ using namespace std;
 
 class Util {
 protected:
-    ostream& _out;
-    
 public:
-    Util(ostream& out) : _out(out) {} 
     static bool hex(const string& p, string& res);
     bool base64Encode(const string& p, string& res);
     bool base64Decode(const string& p, string& res);

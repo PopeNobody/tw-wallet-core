@@ -39,9 +39,9 @@ ostream &operator<<(ostream &lhs, const Coin &rhs) {
 }
 void Coins::coins() const {
     for (auto c: _coinsById) {
-      _out << _coins[c.second] << endl;
+      cout << _coins[c.second] << endl;
     }
-    _out << _coinsById.size() << " coins listed." << endl;
+    cout << _coinsById.size() << " coins listed." << endl;
 }
 
 int Coins::findCoinId(const string& coin) const {
@@ -98,7 +98,7 @@ int Coins::findCoinId(const string& coin) const {
 bool Coins::findCoin(const string& coin, Coin& coin_out) const {
   int c = findCoinId(coin);
   if (c < 0) {
-    _out << "Error: No such coin '" << coin << "'" << endl;
+    cout << "Error: No such coin '" << coin << "'" << endl;
     return false;
   }
   coin_out = *(_coins.begin()+c);
@@ -108,14 +108,14 @@ bool Coins::findCoin(const string& coin, Coin& coin_out) const {
 void Coins::init() {
     // not very nice method: try each ID number, and record the ones
     // that are valid coins
-    _out << "Loading coins ... ";
+    cout << "Loading coins ... ";
     scanCoins();
-    _out << _coinsById.size() << " coins loaded." << endl;
+    cout << _coinsById.size() << " coins loaded." << endl;
 }
 
 void Coins::scanCoins() {
     const auto types = TW::getCoinTypes();
-    _out << types.size() << " coin types" << endl;
+    cout << types.size() << " coin types" << endl;
     _coins.clear();
     Coin dummy;
     _coins.push_back(dummy);
@@ -138,7 +138,7 @@ void Coins::scanCoins() {
       nameMax=max(name.length(),nameMax);
       symbolMax=max(symbol.length(),symbolMax);
     }
-    _out << _coins.size() << " total coins" << endl;
+    cout << _coins.size() << " total coins" << endl;
     for (unsigned index=1; index<_coins.size(); index++ ) {
       const Coin &coin=_coins[index];
       auto idItr = _coinsById.find(coin.id);

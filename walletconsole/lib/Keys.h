@@ -19,12 +19,11 @@ using namespace std;
 
 class Keys {
 private:
-    ostream& _out;
     const Coins& _coins;
     string _currentMnemonic;
     
 public:
-    Keys(ostream& out, const Coins& coins);
+    Keys(const Coins& coins);
     bool newKey(const string& coinid, string& res);
     /// Public key from private key, ED25519
     bool pubPri(const string& coinid, const string& p, string& res);

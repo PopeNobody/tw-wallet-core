@@ -22,7 +22,7 @@ namespace TW::WalletConsole {
 
 using namespace std;
 
-Keys::Keys(ostream& out, const Coins& coins) : _out(out), _coins(coins) {
+Keys::Keys(const Coins& coins) : _coins(coins) {
     // init a random mnemonic
     HDWallet newwall(128, "");
     _currentMnemonic = newwall.getMnemonic();
@@ -57,22 +57,22 @@ bool Keys::pubPri(const string& coinid, const string& p, string& res) {
         auto priv = PrivateKey(privDat);
         auto pub = priv.getPublicKey((TWPublicKeyType)coin.pubKeyType);
         res = hex(pub.bytes);
-        _out << "Public key created, type " << (int)coin.pubKeyType << ", length " << pub.bytes.size() << endl;
+        cout << "Public key created, type " << (int)coin.pubKeyType << ", length " << pub.bytes.size() << endl;
         return true;
     } catch (exception& ex) {
-        _out << "Error: " << ex.what() << endl;
+        cout << "Error: " << ex.what() << endl;
         return false; 
     }
 }
 
 bool Keys::priPub([[maybe_unused]] const string& p, [[maybe_unused]] string& res) {
-    _out << "Not yet implemented! :)" << endl;
+    cout << "Not yet implemented! :)" << endl;
     return false;
 }
 
 void Keys::setMnemonic(const vector<string>& param) {
     if (param.size() < 1 + 12) {
-        _out << "Error: at least 12 words are needed for the mnemonic!" << endl;
+        cout << "Error: at least 12 words are needed for the mnemonic!" << endl;
         return;
     }
     // concatenate
@@ -84,30 +84,30 @@ void Keys::setMnemonic(const vector<string>& param) {
 
     // verify mnemonic
     if (!Mnemonic::isValid(mnem)) {
-        _out << "Not a valid mnemonic: " << mnem << endl;
+        cout << "Not a valid mnemonic: " << mnem << endl;
         return;
     }
 
     // store
     _currentMnemonic = mnem;
-    _out << "Mnemonic set (" << param.size() - 1 << " words)." << endl;
+    cout << "Mnemonic set (" << param.size() - 1 << " words)." << endl;
 }
 
 bool Keys::newMnemonic(const string& param1, string& res) {
     int strength = stoi(param1);
     if (strength < 128 || strength > 256 || (strength % 32 != 0)) {
-        _out << "Error: strength must be between 128 and 256, and multiple of 32" << endl;
+        cout << "Error: strength must be between 128 and 256, and multiple of 32" << endl;
         return false;
     }
     HDWallet newwall(strength, "");
     if (newwall.getMnemonic().length() == 0) {
-        _out << "Error: no mnemonic generated." << endl;
+        cout << "Error: no mnemonic generated." << endl;
         return false;
     }
     // store
     _currentMnemonic = newwall.getMnemonic();
     res = _currentMnemonic;
-    _out << "New mnemonic set." << endl;
+    cout << "New mnemonic set." << endl;
     return false;
 }
 
@@ -160,7 +160,7 @@ bool Keys::priDP(const string& coinid, const string& dp, string& res) {
         dp2 = coin.derivPath;
     }
     DerivationPath dp3(dp2);
-    _out << "Using derivation path \"" << dp2 << "\" for coin " << coin.name << endl;
+    cout << "Using derivation path \"" << dp2 << "\" for coin " << coin.name << endl;
 
     HDWallet wallet(_currentMnemonic, "");
     PrivateKey priKey = wallet.getKey(TWCoinType(coin.c), dp3);

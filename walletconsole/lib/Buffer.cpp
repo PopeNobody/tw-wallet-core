@@ -44,22 +44,22 @@ bool Buffer::prepareInput(const string& in, string& in_out) {
         // of the form #n
         int idx = n - 1;
         if (idx < 0 || idx >= static_cast<int>(_prev.size())) {
-            _out << "Requested " << in2 << ", but out of range of buffers (n=" << _prev.size() << ")." << endl;
+            cout << "Requested " << in2 << ", but out of range of buffers (n=" << _prev.size() << ")." << endl;
             return false;
         }
         in_out = _prev[idx].get();
         return true;
     } catch (exception& ex) {
-        _out << "Invalid input: " << in2 << endl;
+        cout << "Invalid input: " << in2 << endl;
         return false;
     }
 }
 
 void Buffer::buffer() const {
-    _out << "Last value:  " << _last.get() << endl;
-    _out << _prev.size() << " previous values:" << endl;
+    cout << "Last value:  " << _last.get() << endl;
+    cout << _prev.size() << " previous values:" << endl;
     for (auto i = 0ul; i < _prev.size(); ++i) {
-        _out << "  #" << i + 1 << "  " << _prev[i].get() << endl;
+        cout << "  #" << i + 1 << "  " << _prev[i].get() << endl;
     }
 }
 

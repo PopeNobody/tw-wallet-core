@@ -109,7 +109,7 @@ int main(int, char**)
   rl_completion_entry_function = completion_matches;
   my_source f;
   stream<my_source> is{f};
-  TW::WalletConsole::WalletConsole console(is, std::cout);
+  TW::WalletConsole::WalletConsole console;
   console.loop();
   return 0;
 }

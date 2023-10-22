@@ -28,7 +28,7 @@ bool Address::addrPub(const string& coinid, const string& pubkey_in, string& res
     try {
         pubDat = parse_hex(pubkey_in);
     } catch (exception& ex) {
-        _out << "Error: could not parse public key data" << endl;
+        cout << "Error: could not parse public key data" << endl;
         return false;
     }
     auto ctype = (TWCoinType)coin.c;
@@ -44,7 +44,7 @@ bool Address::addrPri(const string& coinid, const string& prikey_in, string& res
     try {
         priDat = parse_hex(prikey_in);
     } catch (exception& ex) {
-        _out << "Error: could not parse private key data" << endl;
+        cout << "Error: could not parse private key data" << endl;
         return false;
     }
     auto ctype = (TWCoinType)coin.c;
@@ -58,10 +58,10 @@ bool Address::addr(const string& coinid, const string& addrStr, [[maybe_unused]]
     if (!_coins.findCoin(coinid, coin)) { return false; }
     auto ctype = (TWCoinType)coin.c;
     if (!TW::validateAddress(ctype, addrStr)) {
-        _out << "Address is not a valid " << coin.name << " address! " << addrStr << endl;
+        cout << "Address is not a valid " << coin.name << " address! " << addrStr << endl;
         return false;
     }
-    _out << "Address is a valid " << coin.name << " address:  " << addrStr << endl;
+    cout << "Address is a valid " << coin.name << " address:  " << addrStr << endl;
     return false;
 }
 

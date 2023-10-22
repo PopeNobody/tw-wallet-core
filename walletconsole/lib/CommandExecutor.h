@@ -17,7 +17,6 @@
 #include <string>
 #include <vector>
 #include <cassert>
-#include <iostream>
 
 namespace TW::WalletConsole {
 
@@ -25,7 +24,6 @@ using namespace std;
 
 class CommandExecutor {
 protected:
-    ostream& _out;
     Coins _coins;
     Buffer _buffer;
     Keys _keys;
@@ -34,7 +32,7 @@ protected:
     string _activeCoin;
 
 public:
-    CommandExecutor(ostream& out);
+    CommandExecutor();
     void init();
     void executeLine(const string& line);
 

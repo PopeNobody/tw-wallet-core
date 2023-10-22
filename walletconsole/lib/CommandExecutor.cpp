@@ -25,14 +25,8 @@ using namespace std;
 using namespace TW;
 
 
-CommandExecutor::CommandExecutor(ostream& out)
-    : 
-    _out(out),
-    _coins(out), 
-    _buffer(out),
-    _keys(out, _coins),
-    _address(out, _coins, _keys),
-    _util(out)
+CommandExecutor::CommandExecutor()
+    : _keys(_coins), _address(_coins, _keys)
 {
 }
 
@@ -42,74 +36,74 @@ void CommandExecutor::init() {
 }
 
 void CommandExecutor::help() const {
-    _out << "Commands:" << endl;
-    _out << "  exit                    Exit" << endl;
-    _out << "  quit                    Exit" << endl;
-    _out << "  help                    This help" << endl;
-    _out << "Inputs, buffer:" << endl;
-    _out << "  #                       Take last result" << endl;
-    _out << "  #<n>                    Take nth previous result" << endl;
-    _out << "  buffer                  Take buffer values" << endl;
-    _out << "Coins:" << endl;
-    _out << "  coins                   List known coins" << endl;
-    _out << "  coin <coin>             Set active coin, selected by its ID or symbol or name" << endl;
-    _out << "Keys:" << endl;
-    _out << "  newKey                  Create new pseudo-random 32-byte key (secret!)" << endl;
-    _out << "  pubPri <priKey>         Derive public key from a secret private key (type is coin-dependent)" << endl;
-    _out << "  priPub <pubKey>         Derive private key from public key :)" << endl;
-    _out << "  setMnemonic <word1> ... Set current mnemonic, several words (secret!)" << endl;
-    _out << "  newMnemonic <strength>  Create and store a new mnemonic, of strength (128 -- 256) (secret!)" << endl;
-    _out << "  dumpSeed                Dump the seed of the current mnemonic (secret!)" << endl;
-    _out << "  dumpMnemonic            Dump the current mnemonic (secret!)" << endl;
-    _out << "  dumpDP                  Dump the default derivation path of the current coin (ex.: m/84'/0'/0'/0/0)" << endl;
-    _out << "  dumpXpub                Dump the XPUB of the current mnemonic" << endl;
-    _out << "  priDP [<derivPath>]     Derive a new private key for the coin, from the current mnemonic and given derivation path." << endl;
-    _out << "                          If derivation path is missing, the default one is used (see dumpDP)." << endl;
-    _out << "Addresses:" << endl;
-    _out << "  addrPub <pubKey>        Create <coin> address from public key" << endl;
-    _out << "  addrPri <priKey>        Create <coin> address from private key" << endl;
-    _out << "  addr <addr>             Check string <coin> address" << endl;
-    _out << "  addrDefault             Derive default address, for current coin, fom current mnemonic; see dumpDP" << endl;
-    _out << "  addrDP <derivPath>      Derive a new address with the given derivation path (using current coin and mnemonic)" << endl;
-    _out << "  addrXpub <xpub> <index> Derive a new address from the given XPUB and address index (using current coin)" << endl;
-    _out << "Coin-specific methods:" << endl;
-    _out << "Transformations:" << endl;
-    _out << "  hex <inp>               Encode given string to hex" << endl;
-    _out << "  base64Encode <inp>      Encode given hex data to Base64" << endl;
-    _out << "  base64Decode <inp>      Decode given Base64 string to hex data" << endl;
-    _out << "File methods:" << endl;
-    _out << "  fileW <fileName> <data> Write data to a (new) binary file." << endl;
-    _out << "  fileR <fileName>        Read data from a binary file." << endl;
-    _out << endl;
-    _out << "Examples:" << endl;
-    _out << "> coin bitcoin <Enter> newKey <Enter> addrPri # <Enter> fileW btcaddr.txt #" << endl;
-    _out << "> newKey <Enter> pubPri # <Enter> addrPub #" << endl;
-    _out << "> coin algo <Enter> addr LCSUSBOLNVT6BND6DWWGM4DLVUYJN3PGBT4T7LTCMDMKS7TR7FZAOHOVPE" << endl;
-    _out << "> coin btc <Enter> dumpDP <Enter> priDP <Enter> priDP m/84'/0'/0'/0/1 <Enter> pubPri # <Enter> addrPub # <Enter> addr #" << endl;
-    _out << "> coin nano <Enter> dumpDP <Enter> setMnemonic word1 word2 ... word12 <Enter> addrDefault <Enter> addrDP m/44'/165'/0' <Enter> addrDP m/44'/165'/1'" << endl;
-    _out << "> hex Hello <Enter> base64Encode # <Enter> base64Decode # <Enter> buffer" << endl;
+    cout << "Commands:" << endl;
+    cout << "  exit                    Exit" << endl;
+    cout << "  quit                    Exit" << endl;
+    cout << "  help                    This help" << endl;
+    cout << "Inputs, buffer:" << endl;
+    cout << "  #                       Take last result" << endl;
+    cout << "  #<n>                    Take nth previous result" << endl;
+    cout << "  buffer                  Take buffer values" << endl;
+    cout << "Coins:" << endl;
+    cout << "  coins                   List known coins" << endl;
+    cout << "  coin <coin>             Set active coin, selected by its ID or symbol or name" << endl;
+    cout << "Keys:" << endl;
+    cout << "  newKey                  Create new pseudo-random 32-byte key (secret!)" << endl;
+    cout << "  pubPri <priKey>         Derive public key from a secret private key (type is coin-dependent)" << endl;
+    cout << "  priPub <pubKey>         Derive private key from public key :)" << endl;
+    cout << "  setMnemonic <word1> ... Set current mnemonic, several words (secret!)" << endl;
+    cout << "  newMnemonic <strength>  Create and store a new mnemonic, of strength (128 -- 256) (secret!)" << endl;
+    cout << "  dumpSeed                Dump the seed of the current mnemonic (secret!)" << endl;
+    cout << "  dumpMnemonic            Dump the current mnemonic (secret!)" << endl;
+    cout << "  dumpDP                  Dump the default derivation path of the current coin (ex.: m/84'/0'/0'/0/0)" << endl;
+    cout << "  dumpXpub                Dump the XPUB of the current mnemonic" << endl;
+    cout << "  priDP [<derivPath>]     Derive a new private key for the coin, from the current mnemonic and given derivation path." << endl;
+    cout << "                          If derivation path is missing, the default one is used (see dumpDP)." << endl;
+    cout << "Addresses:" << endl;
+    cout << "  addrPub <pubKey>        Create <coin> address from public key" << endl;
+    cout << "  addrPri <priKey>        Create <coin> address from private key" << endl;
+    cout << "  addr <addr>             Check string <coin> address" << endl;
+    cout << "  addrDefault             Derive default address, for current coin, fom current mnemonic; see dumpDP" << endl;
+    cout << "  addrDP <derivPath>      Derive a new address with the given derivation path (using current coin and mnemonic)" << endl;
+    cout << "  addrXpub <xpub> <index> Derive a new address from the given XPUB and address index (using current coin)" << endl;
+    cout << "Coin-specific methods:" << endl;
+    cout << "Transformations:" << endl;
+    cout << "  hex <inp>               Encode given string to hex" << endl;
+    cout << "  base64Encode <inp>      Encode given hex data to Base64" << endl;
+    cout << "  base64Decode <inp>      Decode given Base64 string to hex data" << endl;
+    cout << "File methods:" << endl;
+    cout << "  fileW <fileName> <data> Write data to a (new) binary file." << endl;
+    cout << "  fileR <fileName>        Read data from a binary file." << endl;
+    cout << endl;
+    cout << "Examples:" << endl;
+    cout << "> coin bitcoin <Enter> newKey <Enter> addrPri # <Enter> fileW btcaddr.txt #" << endl;
+    cout << "> newKey <Enter> pubPri # <Enter> addrPub #" << endl;
+    cout << "> coin algo <Enter> addr LCSUSBOLNVT6BND6DWWGM4DLVUYJN3PGBT4T7LTCMDMKS7TR7FZAOHOVPE" << endl;
+    cout << "> coin btc <Enter> dumpDP <Enter> priDP <Enter> priDP m/84'/0'/0'/0/1 <Enter> pubPri # <Enter> addrPub # <Enter> addr #" << endl;
+    cout << "> coin nano <Enter> dumpDP <Enter> setMnemonic word1 word2 ... word12 <Enter> addrDefault <Enter> addrDP m/44'/165'/0' <Enter> addrDP m/44'/165'/1'" << endl;
+    cout << "> hex Hello <Enter> base64Encode # <Enter> base64Decode # <Enter> buffer" << endl;
 
-    _out << endl;
+    cout << endl;
 }
 
 bool CommandExecutor::executeOne(const string& cmd, const vector<string>& params_in, string& res) {
     if (cmd == "exit" || cmd == "quit") {
         // handled in loop
-        _out << "Bye!" << endl;
+        cout << "Bye!" << endl;
         return false;
     }
 
     // prepare inputs
     vector<string> params;
     if (!prepareInputs(params_in, params)) {
-        _out << "Error processing input(s)" << endl;
+        cout << "Error processing input(s)" << endl;
         return false;
     }
     
     if (cmd == "help") { help(); return false; }
     if (cmd[0] == '#') {
         // echo input, with substitution
-        _out << "Previous result is:  " << params[0] << endl;
+        cout << "Previous result is:  " << params[0] << endl;
         return false;
     }
     if (cmd == "buffer") { _buffer.buffer(); return false; }
@@ -143,7 +137,7 @@ bool CommandExecutor::executeOne(const string& cmd, const vector<string>& params
     if (cmd == "filer") { if (!checkMinParams(params, 1)) { return false; } return _util.fileR(params[1], res); }
 
     // fallback
-    _out << "Unknown command:  " << cmd << endl << "Type 'help' for list of commands." << endl;
+    cout << "Unknown command:  " << cmd << endl << "Type 'help' for list of commands." << endl;
     return false;
 }
 
@@ -159,11 +153,11 @@ void CommandExecutor::execute(const string& cmd, const vector<string>& params) {
         bool res = executeOne(cmd, params, resultStr);
         if (res && resultStr.length() > 0) {
             // there is a new result
-            _out << "Result:  " << resultStr << endl;
+            cout << "Result:  " << resultStr << endl;
             _buffer.addResult(resultStr);
         }
     } catch (exception& ex) {
-        _out << "Error while executing command, " << ex.what() << endl;
+        cout << "Error while executing command, " << ex.what() << endl;
     }
 }
 
@@ -193,7 +187,7 @@ bool CommandExecutor::checkMinParams(const vector<string>& params, std::size_t n
     if (params.size() - 1 >= n) {
         return true;
     }
-    _out << "At least " << n << " parameters are needed! See 'help'" << endl;
+    cout << "At least " << n << " parameters are needed! See 'help'" << endl;
     //help();
     return false;
 }
@@ -206,9 +200,9 @@ bool CommandExecutor::setCoin(const string& coin, bool force) {
     if (_activeCoin != c.id || force) {
         // need to change
         _activeCoin = c.id;
-        _out << "Set active coin to:" << endl;
-        _out << "  " << c << endl;
-        _out << "  Use 'coin' to change." << endl;
+        cout << "Set active coin to:" << endl;
+        cout << "  " << c << endl;
+        cout << "  Use 'coin' to change." << endl;
     }
     return true;
 }

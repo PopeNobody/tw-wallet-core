@@ -28,7 +28,6 @@ public:
 
 class Coins {
 public:
-    Coins(ostream& out) : _out(out) {}
     void coins() const;
     bool findCoin(const string& coin, Coin& coin_out) const;
     void init();
@@ -36,7 +35,6 @@ protected:
     void scanCoins();
     int findCoinId(const string& coin) const;
     static int pubKeyTypeFromCurve(int cc);
-    ostream& _out;
     // Rather than four coin copies of
     // each coin, I added a vector here,
     // and now the maps are just indices into
