@@ -30,7 +30,7 @@ using namespace TW;
 
 void WalletConsole::init() {
   _outst << endl;
-  _outst << "Wallet-core Console                          (c) TrustWallet" << endl;
+  _outst << "Wallet-core Console (c) TrustWallet" << endl;
   _outst << "Type 'help' for list of commands." << endl;
   _outst << endl;
   _executor.init();
@@ -39,7 +39,6 @@ void WalletConsole::init() {
 void WalletConsole::loop() {
   string line;
   while (true) {
-    _outst << "> ";
     if(!getline(_inst, line)) {
       _outst << endl;
       break;
@@ -54,7 +53,7 @@ void WalletConsole::loop() {
 
     _executor.executeLine(line);
   }
-    _outst << "Bye!" << endl << endl;
+  _outst << "Bye!" << endl << endl;
 }
 
 bool WalletConsole::isExit(const string& line) {

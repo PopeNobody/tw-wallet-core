@@ -50,6 +50,7 @@ protected:
     map<string, int> _coinsByName;
     map<string, int> _coinsBySymbol;
     vector<Coin> _coins;
+    vector<int>  _dups;
 };
 ostream &operator<<(ostream &lhs, const Coin &rhs);
 

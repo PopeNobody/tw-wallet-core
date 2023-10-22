@@ -13,6 +13,8 @@ using namespace boost::iostreams;
 using namespace std;
 namespace io = boost::iostreams;
 
+// Fixme:  This and the help text should probably live in
+//         a nice map some place.  
 const std::array<string,27> words = {
   "addr",
   "addrDefault",
@@ -46,41 +48,18 @@ const std::array<string,27> words = {
 string last="*";
 auto b(words.begin()), e(words.end());
 char *completion_matches(const char *text, int state) {
-  if(text!=last) {
-    cerr << "text: " << text << endl;
-    cerr << "last: " << last << endl;
-  }
-  if(state) {
-    if(text!=last) {
-      cerr << "text!=last" << endl;
-    }
-  } else {
+  if(!state) {
     last=text;
     b=words.begin(); e=words.end();
-    while(b!=e && b->substr(0,last.length())!=last){
+    while(b!=e && b->substr(0,last.length())!=last)
       b++;
-    };
     if(b==e)
       return 0;
     auto p(b);
-    while(p!=e && p->substr(0,last.length())==last){
+    while(p!=e && p->substr(0,last.length())==last)
       p++;
-    }
     e=p;
     p=b;
-    if(false) {
-      size_t col=0;
-      cerr << "list: ";
-      while(p!=e) {
-        if(!col)
-          cerr << endl;
-        cerr << left << setw(14) << *p++;
-        col+=15;
-        if(col>=70)
-          col=0;
-      }
-      cerr << endl << "list: " << endl;
-    }
   }
   auto p(b);
   for(int i=0;i<state;i++){

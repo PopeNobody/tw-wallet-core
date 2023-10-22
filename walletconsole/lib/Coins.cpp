@@ -115,7 +115,7 @@ void Coins::init() {
 
 void Coins::scanCoins() {
     const auto types = TW::getCoinTypes();
-    cerr << types.size() << " coin types" << endl;
+    _out << types.size() << " coin types" << endl;
     _coins.clear();
     Coin dummy;
     _coins.push_back(dummy);
@@ -138,13 +138,9 @@ void Coins::scanCoins() {
       nameMax=max(name.length(),nameMax);
       symbolMax=max(symbol.length(),symbolMax);
     }
-    cerr << _coins.size() << " coins" << endl;
-    for (size_t index=1; index<_coins.size(); index++ ) {
-      cerr << setw(4) << index << _coins[index] << endl;
-    }
-    for (size_t index=1; index<_coins.size(); index++ ) {
+    _out << _coins.size() << " total coins" << endl;
+    for (unsigned index=1; index<_coins.size(); index++ ) {
       const Coin &coin=_coins[index];
-      cerr << coin << endl;
       auto idItr = _coinsById.find(coin.id);
       auto numItr = _coinsByNum.find(coin.c);
       auto nameItr = _coinsByName.find(coin.name);
@@ -156,17 +152,7 @@ void Coins::scanCoins() {
           (symbolItr!=_coinsBySymbol.end())
         )
       {
-        cerr << "Duplicate Coin: " << endl;
-        if(numItr!=_coinsByNum.end())
-         cerr << "#: " << _coins[numItr->second] << endl;
-        if(idItr!=_coinsById.end())
-          cerr << "I: " << _coins[idItr->second] << endl;
-        if(nameItr!=_coinsByName.end())
-          cerr << "N: " << _coins[nameItr->second] << endl;
-        if(symbolItr!=_coinsBySymbol.end())
-          cerr << "S: " << _coins[symbolItr->second] << endl;
-        cerr << "*: " << coin << endl;
-        cerr << endl;
+        _dups.push_back(index);
       } else {
         _coinsByNum[coin.c] = (int)index;
         _coinsById[coin.id] = (int)index;

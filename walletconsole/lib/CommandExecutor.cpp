@@ -206,7 +206,9 @@ bool CommandExecutor::setCoin(const string& coin, bool force) {
     if (_activeCoin != c.id || force) {
         // need to change
         _activeCoin = c.id;
-        _out << "Set active coin to: " << c.id << "    Use 'coin' to change.  (name: '" << c.name << "'  symbol: " << c.symbol << "  numericalid: " << c.c << ")" << endl;
+        _out << "Set active coin to:" << endl;
+        _out << "  " << c << endl;
+        _out << "  Use 'coin' to change." << endl;
     }
     return true;
 }
