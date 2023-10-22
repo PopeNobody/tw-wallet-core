@@ -37,10 +37,20 @@ protected:
     int findCoinId(const string& coin) const;
     static int pubKeyTypeFromCurve(int cc);
     ostream& _out;
-    map<int, Coin> _coinsByNum;
-    map<string, Coin> _coinsById;
-    map<string, Coin> _coinsByName;
-    map<string, Coin> _coinsBySymbol;
+    // Rather than four coin copies of
+    // each coin, I added a vector here,
+    // and now the maps are just indices into
+    // the vector.
+    //
+    // The vector has a decault constructed
+    // Coin object in position 0, so an index
+    // of zero from the maps indicates a non-coin
+    map<int, int> _coinsByNum;
+    map<string, int> _coinsById;
+    map<string, int> _coinsByName;
+    map<string, int> _coinsBySymbol;
+    vector<Coin> _coins;
 };
+ostream &operator<<(ostream &lhs, const Coin &rhs);
 
 } // namespace TW::WalletConsole

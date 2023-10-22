@@ -18,6 +18,9 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include <editline/readline.h>
+#include <editline/history.h>
+#include <fstream>
 
 namespace TW::WalletConsole {
 
@@ -26,27 +29,31 @@ using namespace TW;
 
 
 void WalletConsole::init() {
-    _outst << endl;
-    _outst << "Wallet-core Console                          (c) TrustWallet" << endl;
-    _outst << "Type 'help' for list of commands." << endl;
-    _outst << endl;
-
-    _executor.init();
+  _outst << endl;
+  _outst << "Wallet-core Console                          (c) TrustWallet" << endl;
+  _outst << "Type 'help' for list of commands." << endl;
+  _outst << endl;
+  _executor.init();
 }
 
 void WalletConsole::loop() {
-    while (true) {
-        _outst << "> ";
-        string line;
-        getline(_inst, line);
-        Util::trimLeft(line);
-        if (line.length() == 0) { continue; }
-        if (isExit(line)) {
-            break;
-        }
-
-        _executor.executeLine(line);
+  string line;
+  while (true) {
+    _outst << "> ";
+    if(!getline(_inst, line)) {
+      _outst << endl;
+      break;
     }
+    Util::trimLeft(line);
+    if (line.length() == 0) {
+      continue;
+    }
+    if (isExit(line)) {
+      break;
+    }
+
+    _executor.executeLine(line);
+  }
     _outst << "Bye!" << endl << endl;
 }
 

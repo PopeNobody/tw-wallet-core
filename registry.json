@@ -3759,7 +3759,7 @@
     "id": "smartbch",
     "name": "Smart Bitcoin Cash",
     "coinId": 10000145,
-    "symbol": "BCH",
+    "symbol": "SBCH",
     "decimals": 18,
     "blockchain": "Ethereum",
     "derivation": [

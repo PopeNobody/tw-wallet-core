@@ -15,7 +15,6 @@
 #include "Data.h"
 
 #include <string>
-#include <vector>
 #include <cassert>
 #include <iostream>
 
@@ -25,15 +24,19 @@ using namespace std;
 
 class WalletConsole {
 protected:
-    istream& _inst;
-    ostream& _outst;
-    CommandExecutor _executor;
+  istream& _inst;
+  ostream& _outst;
+  CommandExecutor _executor;
 
 public:
-    WalletConsole(istream& ins, ostream& outs) : _inst(ins), _outst(outs), _executor(outs) { init(); }
-    void init();
-    void loop();
-    static bool isExit(const string& cmd);
+  WalletConsole(istream& ins, ostream& outs)
+    : _inst(ins), _outst(outs), _executor(outs)
+  {
+    init();
+  }
+  void init();
+  void loop();
+  static bool isExit(const string& cmd);
 };
 
 } // namespace TW::WalletConsole
