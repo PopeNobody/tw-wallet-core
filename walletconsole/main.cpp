@@ -7,7 +7,6 @@
 #include <boost/iostreams/stream.hpp>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <functional>
 using namespace boost::iostreams;
 using namespace boost::iostreams;
 
@@ -16,95 +15,101 @@ namespace io = boost::iostreams;
 
 // Fixme:  This and the help text should probably live in
 //         a nice map some place.  
-struct complete_t {
-  char *operator()(char *, int);
+const std::array<string,27> words = {
+  "addr",
+  "addrDefault",
+  "addrDP",
+  "addrPri",
+  "addrPub",
+  "addrXpub",
+  "base64Decode",
+  "base64Encode",
+  "buffer",
+  "coin",
+  "coins",
+  "dumpDP",
+  "dumpMnemonic",
+  "dumpSeed",
+  "dumpXpub",
+  "exit",
+  "fileR",
+  "fileW",
+  "help",
+  "hex",
+  "newKey",
+  "newMnemonic",
+  "priDP",
+  "priPub",
+  "pubPri",
+  "quit",
+  "setMnemonic"
 };
-static char *complate(char *,int) {
-  return 0;
+
+string last="*";
+auto b(words.begin()), e(words.end());
+char *completion_matches(const char *text, int state) {
+  if(!state) {
+    last=text;
+    b=words.begin(); e=words.end();
+    while(b!=e && b->substr(0,last.length())!=last)
+      b++;
+    if(b==e)
+      return 0;
+    auto p(b);
+    while(p!=e && p->substr(0,last.length())==last)
+      p++;
+    e=p;
+    p=b;
+  }
+  auto p(b);
+  for(int i=0;i<state;i++){
+    if(++p==e)
+      return 0;
+  };
+  return strdup(p->c_str());
+}
+class my_source {
+public:
+    typedef char        char_type;
+    typedef io::source_tag  category;
+    char *line;
+    char *pos;
+    my_source()
+      : line(0), pos(0)
+    {
+    }
+    std::streamsize read(char* s, std::streamsize n)
+    {
+      memset(s,0,n);
+      if(!line) {
+        pos = line = readline("> ");
+        if(!pos)
+          return 0;
+        add_history(pos);
+      }
+      for(int i=0;i<n-1;i++){
+        if((s[i]=*pos++)==0){
+          free(line);
+          pos=line=0;
+          s[i++]='\n';
+          return i;
+        }
+      }
+      return n;
+    }
 };
+
+
+using namespace boost::iostreams;
+
 
 int main(int, char**)
 {
-  TW::WalletConsole::WalletConsole console;
-  rl_completion_entry_function = complete;
+  dup2(2,1);
+  rl_completion_entry_function = completion_matches;
   my_source f;
   stream<my_source> is{f};
-  string x;
-  getline(x);
+  TW::WalletConsole::WalletConsole console;
   console.loop();
   return 0;
-}
-
-
-
-#include <functional>
-#include <iostream>
- 
-struct Foo
-{
-    Foo(int num) : num_(num) {}
-    void print_add(int i) const { std::cout << num_ + i << '\n'; }
-    int num_;
-};
- 
-void print_num(int i)
-{
-    std::cout << i << '\n';
-}
- 
-struct PrintNum
-{
-    void operator()(int i) const
-    {
-        std::cout << i << '\n';
-    }
-};
- 
-int main()
-{
-    // store a free function
-    std::function<void(int)> f_display = print_num;
-    f_display(-9);
- 
-    // store a lambda
-    std::function<void()> f_display_42 = []() { print_num(42); };
-    f_display_42();
- 
-    // store the result of a call to std::bind
-    std::function<void()> f_display_31337 = std::bind(print_num, 31337);
-    f_display_31337();
- 
-    // store a call to a member function
-    std::function<void(const Foo&, int)> f_add_display = &Foo::print_add;
-    const Foo foo(314159);
-    f_add_display(foo, 1);
-    f_add_display(314159, 1);
- 
-    // store a call to a data member accessor
-    std::function<int(Foo const&)> f_num = &Foo::num_;
-    std::cout << "num_: " << f_num(foo) << '\n';
- 
-    // store a call to a member function and object
-    using std::placeholders::_1;
-    std::function<void(int)> f_add_display2 = std::bind(&Foo::print_add, foo, _1);
-    f_add_display2(2);
- 
-    // store a call to a member function and object ptr
-    std::function<void(int)> f_add_display3 = std::bind(&Foo::print_add, &foo, _1);
-    f_add_display3(3);
- 
-    // store a call to a function object
-    std::function<void(int)> f_display_obj = PrintNum();
-    f_display_obj(18);
- 
-    auto factorial = [](int n)
-    {
-        // store a lambda object to emulate "recursive lambda"; aware of extra overhead
-        std::function<int(int)> fac = [&](int n) { return (n < 2) ? 1 : n * fac(n - 1); };
-        // note that "auto fac = [&](int n) {...};" does not work in recursive calls
-        return fac(n);
-    };
-    for (int i{5}; i != 8; ++i)
-        std::cout << i << "! = " << factorial(i) << ";  ";
-    std::cout << '\n';
 }
