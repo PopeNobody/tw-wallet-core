@@ -1,4 +1,3 @@
-#include "WalletConsole.h"
 #include <boost/iostreams/categories.hpp>
 #include <array>
 #include <iomanip>
@@ -7,44 +6,11 @@
 #include <boost/iostreams/stream.hpp>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <functional>
 
-using namespace std;
 namespace io = boost::iostreams;
-
-// Fixme:  This and the help text should probably live in
-//         a nice map some place.  
-const std::array<string,27> words = {
-  "addr",
-  "addrDefault",
-  "addrDP",
-  "addrPri",
-  "addrPub",
-  "addrXpub",
-  "base64Decode",
-  "base64Encode",
-  "buffer",
-  "coin",
-  "coins",
-  "dumpDP",
-  "dumpMnemonic",
-  "dumpSeed",
-  "dumpXpub",
-  "exit",
-  "fileR",
-  "fileW",
-  "help",
-  "hex",
-  "newKey",
-  "newMnemonic",
-  "priDP",
-  "priPub",
-  "pubPri",
-  "quit",
-  "setMnemonic"
-};
-
-extern string last;
-extern char *completion_matches(const char *text, int state);
+using namespace std;
+string last="*";
 class my_source {
 public:
     typedef char        char_type;
@@ -76,13 +42,8 @@ public:
     }
 };
 
+//rl_completion_entry_function = 
+//my_source f;
+//stream<my_source> is{f};
 
 using namespace boost::iostreams;
-
-
-int main(int, char**)
-{
-  TW::WalletConsole::WalletConsole console;
-  console.loop();
-  return 0;
-}
