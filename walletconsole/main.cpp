@@ -105,11 +105,10 @@ using namespace boost::iostreams;
 
 int main(int, char**)
 {
-  dup2(2,1);
+  TW::WalletConsole::WalletConsole console;
   rl_completion_entry_function = completion_matches;
   my_source f;
   stream<my_source> is{f};
-  TW::WalletConsole::WalletConsole console;
   console.loop();
   return 0;
 }
