@@ -3,6 +3,11 @@
 # This file is part of Trust. The full Trust copyright notice, including
 # terms governing use, modification, and redistribution, is contained in the
 # file LICENSE at the root of the source code distribution tree.
+set(CXX,"clang++")
+set(CC,"clang")
+SET (CMAKE_CXX_COMPILER "/usr/bin/clang++" CACHE STRING "C++ compiler" FORCE)
+SET (CMAKE_C_COMPILER "/usr/bin/clang" CACHE STRING "C compiler" FORCE)
+
 
 cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 
