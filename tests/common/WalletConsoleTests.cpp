@@ -16,8 +16,9 @@ namespace TW::WalletConsole::tests {
 using namespace std;
 
 static stringstream outputss;
-static CommandExecutor cmd(outputss);
+static CommandExecutor cmd;
 static int staticInit() {
+
     cmd.init();
     return 0;
 }
@@ -44,7 +45,7 @@ TEST(WalletConsole, loopExit) {
     inss << "coin eth" << endl
          << "newKey" << endl
          << "exit" << endl;
-    TW::WalletConsole::WalletConsole console(inss, outss);
+    TW::WalletConsole::WalletConsole console;
     console.loop();
     string res = outss.str();
     EXPECT_TRUE(res.find("Result") != string::npos);
