@@ -33,7 +33,6 @@ void WalletConsole::init() {
   cout << "Wallet-core Console (c) TrustWallet" << endl;
   cout << "Type 'help' for list of commands." << endl;
   cout << endl;
-  _executor.init();
 }
 
 void WalletConsole::loop() {

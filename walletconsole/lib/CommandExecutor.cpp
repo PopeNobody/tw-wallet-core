@@ -19,6 +19,8 @@
 #include <vector>
 #include <cassert>
 
+#include <readline/readline.h>
+
 namespace TW::WalletConsole {
 
 using namespace std;
@@ -29,11 +31,40 @@ CommandExecutor::CommandExecutor()
     : _keys(_coins), _address(_coins, _keys)
 {
 }
-
 void CommandExecutor::init() {
-    _coins.init();
-    setCoin("btc", true);
-}
+  _coins.init();
+  setCoin("btc", true);
+};
+
+const std::array<string,27> words = {
+  "addr",
+  "addrDefault",
+  "addrDP",
+  "addrPri",
+  "addrPub",
+  "addrXpub",
+  "base64Decode",
+  "base64Encode",
+  "buffer",
+  "coin",
+  "coins",
+  "dumpDP",
+  "dumpMnemonic",
+  "dumpSeed",
+  "dumpXpub",
+  "exit",
+  "fileR",
+  "fileW",
+  "help",
+  "hex",
+  "newKey",
+  "newMnemonic",
+  "priDP",
+  "priPub",
+  "pubPri",
+  "quit",
+  "setMnemonic"
+};
 
 void CommandExecutor::help() const {
     cout << "Commands:" << endl;
@@ -208,3 +239,24 @@ bool CommandExecutor::setCoin(const string& coin, bool force) {
 }
 
 } // namespace TW::WalletConsole
+//char *completion_matches(const char *text, int state) {
+//  if(!state) {
+//    last=text;
+//    b=words.begin(); e=words.end();
+//    while(b!=e && b->substr(0,last.length())!=last)
+//      b++;
+//    if(b==e)
+//      return 0;
+//    auto p(b);
+//    while(p!=e && p->substr(0,last.length())==last)
+//      p++;
+//    e=p;
+//    p=b;
+//  }
+//  auto p(b);
+//  for(int i=0;i<state;i++){
+//    if(++p==e)
+//      return 0;
+//  };
+//  return strdup(p->c_str());
+//}

@@ -24,6 +24,7 @@ public:
     int curve; // TWCurve
     int pubKeyType; // TWPublicKeyType
     string derivPath;
+    ostream &operator<<(ostream &lhs)const;
 };
 
 class Coins {

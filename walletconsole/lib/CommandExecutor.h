@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 #include <cassert>
+#include "Command.h"
 
 namespace TW::WalletConsole {
 
@@ -24,18 +25,24 @@ using namespace std;
 
 class CommandExecutor {
 protected:
-    Coins _coins;
-    Buffer _buffer;
-    Keys _keys;
-    Address _address;
-    Util _util;
-    string _activeCoin;
+  Coins _coins;
+  Buffer _buffer;
+  Keys _keys;
+  Address _address;
+  Util _util;
+  string _activeCoin;
 
+  vector<Command> _commands;
+  string _lastComplete;
+
+  protected:
+  public:
+  const char *complete(const char *, int);
+    
 public:
     CommandExecutor();
-    void init();
     void executeLine(const string& line);
-
+    void init();
 protected:
     /// Put result in res.  Return true if meaningful result is returned. 
     bool executeOne(const string& cmd, const vector<string>& params, string& res);
