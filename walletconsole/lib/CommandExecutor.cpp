@@ -65,6 +65,29 @@ const std::array<string,27> words = {
   "quit",
   "setMnemonic"
 };
+string last;
+auto b(words.begin()), e(words.end());
+char *completion_matches(const char *text, int state) {
+  if(!state) {
+    last=text;
+    b=words.begin(); e=words.end();
+    while(b!=e && b->substr(0,last.length())!=last)
+      b++;
+    if(b==e)
+      return 0;
+    auto p(b);
+    while(p!=e && p->substr(0,last.length())==last)
+      p++;
+    e=p;
+    p=b;
+  }
+  auto p(b);
+  for(int i=0;i<state;i++){
+    if(++p==e)
+      return 0;
+  };
+  return strdup(p->c_str());
+}
 
 void CommandExecutor::help() const {
     cout << "Commands:" << endl;
